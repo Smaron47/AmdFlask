@@ -13,7 +13,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max 16MB upload
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # ⚠️ UPDATE THIS: Match the folder names from your training dataset (alphabetical order)
-CLASS_NAMES = ["AMD","Cataract","Diabetes","Normal"]  # Example class names, update as needed
+CLASS_NAMES = ["AMD","Cataract","Normal","Normal"]  # Example class names, update as needed
 MODEL_PATH = "amdnet23_v3_1.tflite"
 
 # --- LOAD TFLITE MODEL ---
@@ -73,11 +73,9 @@ def get_prediction(image_path):
     
     # Get highest probability class
     predicted_idx = np.argmax(output_data)
-    if predicted_idx == 2:  # If predicted class is "Diabetes" then  make that normal
-        predicted_idx = 3
-        confidence = output_data[2] * 100
-    else:
-        confidence = output_data[predicted_idx] * 100
+        
+
+    confidence = output_data[predicted_idx] * 100
 
     return CLASS_NAMES[predicted_idx], confidence
 
